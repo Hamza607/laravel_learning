@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,15 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
+    
+    // Admin routes
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/admin/users', [AdminController::class, 'users']);
+    });
+
+    // profile routes
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::put('/profile', [AuthController::class, 'updateProfile']);
+    Route::delete('/account', [AuthController::class, 'deleteAccount']);
+    Route::post('/logout-all', [AuthController::class, 'logoutAll']);
 });
