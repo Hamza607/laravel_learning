@@ -86,9 +86,9 @@ class AuthController extends Controller
     {
         $user = $request->user();
 
-        $user->tokens()->delete();
+        $user->tokens()->delete();// user token deleted
 
-        $user->delete();
+        $user->delete(); //user data deleted
 
         return response()->json([
             'success' => true,

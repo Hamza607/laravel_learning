@@ -24,6 +24,26 @@ class AdminController extends Controller
             });
         }
 
+        // Filter by role
+        if ($request->filled('role')) {
+            $query->where('role', $request->query('role'));
+        }
+
+        // Sorting
+        $allowedColumns = ['name', 'email', 'created_at'];
+
+        $sortBy = $request->query('sort_by', 'created_at');
+        $sortOrder = $request->query('sort_order', 'desc');
+
+        if (!in_array($sortBy, $allowedColumns)) {
+            $sortBy = 'created_at';
+        }
+
+        if (!in_array($sortOrder, ['asc', 'desc'])) {
+            $sortOrder = 'desc';
+        }
+
+        $query->orderBy($sortBy, $sortOrder);
 
         $users = $query->paginate(10); // Paginate the users, 10 per page
 
