@@ -39,4 +39,17 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function scopeAdmins($query)
+    {
+        return $query->where('role', 'admin');
+    }
+
+    public function scopeNormalUsers($query)
+    {
+        return $query->where('role', 'user');
+    }
+    public function profile()
+{
+    return $this->hasOne(Profile::class);
+}
 }
